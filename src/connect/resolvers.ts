@@ -1,4 +1,3 @@
-import { Reflect } from "core-js";
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import { ConnectOptions, NamedProperty } from "./connect.d";
 
@@ -14,16 +13,24 @@ export function resolveOption(options: ConnectOptions) {
   const { states, getters, actions, mutations } = options;
 
   let mappedStates = states
-    ? mapProperies(states, (args: string[], namespace?: string) => (namespace ? mapState(namespace, args) : mapState(args)))
+    ? mapProperies(states, (args: string[], namespace?: string) =>
+        namespace ? mapState(namespace, args) : mapState(args)
+      )
     : {};
   let mappedGetters = getters
-    ? mapProperies(getters, (args: string[], namespace?: string) => (namespace ? mapGetters(namespace, args) : mapGetters(args)))
+    ? mapProperies(getters, (args: string[], namespace?: string) =>
+        namespace ? mapGetters(namespace, args) : mapGetters(args)
+      )
     : {};
   let mappedActions = actions
-    ? mapProperies(actions, (args: string[], namespace?: string) => (namespace ? mapActions(namespace, args) : mapActions(args)))
+    ? mapProperies(actions, (args: string[], namespace?: string) =>
+        namespace ? mapActions(namespace, args) : mapActions(args)
+      )
     : {};
   let mappedMutations = mutations
-    ? mapProperies(mutations, (args: string[], namespace?: string) => (namespace ? mapMutations(namespace, args) : mapMutations(args)))
+    ? mapProperies(mutations, (args: string[], namespace?: string) =>
+        namespace ? mapMutations(namespace, args) : mapMutations(args)
+      )
     : {};
 
   return { states: mappedStates, getters: mappedGetters, actions: mappedActions, mutations: mappedMutations };
@@ -78,10 +85,11 @@ export function resolveProperties(component: Record<string, any>) {
   let computed: Record<string, any> = {};
   let methods: Record<string, any> = {};
   let hooks: Record<string, any> = {};
+  let components: Record<string, any> = component.components || {};
   let props: Array<any> = component.props || [];
   let mixins: Array<any> = component.mixins || [];
 
-  let proto = Reflect.getPrototypeOf(component);
+  let proto: any = Reflect.getPrototypeOf(component);
   let fields = Reflect.ownKeys(component);
   let functions = Reflect.ownKeys(proto);
 
@@ -96,8 +104,8 @@ export function resolveProperties(component: Record<string, any>) {
       }
     } else {
       let func = Reflect.getOwnPropertyDescriptor(proto, key);
-      if (isComputed(func)) {
-        computed[key.toString()] = func.get;
+      if (isComputed(func!)) {
+        computed[key.toString()] = func!.get;
       } else {
         methods[key.toString()] = proto[key];
       }
@@ -110,6 +118,7 @@ export function resolveProperties(component: Record<string, any>) {
 
   return {
     data,
+    components,
     computed,
     methods,
     hooks,
@@ -177,6 +186,7 @@ function isData(field: string | number | symbol) {
     "_watchers",
     "_data",
     "props",
+    "components",
     "mixins"
   ];
   return internelFields.indexOf(field.toString()) == -1;

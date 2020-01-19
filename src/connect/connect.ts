@@ -9,12 +9,13 @@ import { resolveProperties, resolveOption } from "./resolvers";
 export default (options: ConnectOptions) => {
   return (Component: VueClass<Vue>) => {
     let instance = new Component();
-    const { data, computed, methods, hooks, props, mixins } = resolveProperties(instance);
+    const { data, components, computed, methods, hooks, props, mixins } = resolveProperties(instance);
     const { states, getters, actions, mutations } = resolveOption(options);
     return {
       name: Component.name,
       props,
       mixins,
+      components,
       data() {
         return {
           ...data
