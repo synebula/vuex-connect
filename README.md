@@ -18,6 +18,8 @@ export interface ConnectOptions {
 You can use it like this:
 
 ```ts
+// if use namespace of vuex, use like "{ home: ["name"] }",
+// otherwise use string like "hello"
 @connect({ states: ["hello", { home: ["name"] }] })
 export default class Home extends Vue {
   // you can declare state like class fileds, or in data function
