@@ -42,7 +42,10 @@ export default class Home extends Vue {
   changeState1() {
     this.state1 = "stateChanged";
   }
+  //...other methods
+
+  //declare hooks
   created() {}
-  //other hooks
+  //...other hooks
 }
 ```
