@@ -11,7 +11,7 @@ export default (options?: ConnectOptions) => {
     let instance = new Component();
     const { data, components, computed, methods, hooks, props, mixins } = resolveProperties(instance);
     const { states, getters, actions, mutations } = resolveOption(options || {});
-    return {
+    let vueOptions: any = {
       name: Component.name,
       props,
       mixins,
@@ -33,5 +33,6 @@ export default (options?: ConnectOptions) => {
       },
       ...hooks
     };
+    return vueOptions;
   };
 };
