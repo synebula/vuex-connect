@@ -6,11 +6,11 @@ import { resolveProperties, resolveOption } from "./resolvers";
  * 关联vuex中属性到vue对象
  * @param options Connect选项
  */
-export default (options: ConnectOptions) => {
+export default (options?: ConnectOptions) => {
   return (Component: VueClass<Vue>) => {
     let instance = new Component();
     const { data, components, computed, methods, hooks, props, mixins } = resolveProperties(instance);
-    const { states, getters, actions, mutations } = resolveOption(options);
+    const { states, getters, actions, mutations } = resolveOption(options || {});
     return {
       name: Component.name,
       props,
