@@ -31,6 +31,11 @@ export default class Home extends Vue {
     };
   }
 
+  //declare computed
+  get computed1() {
+    return `computed ${state1}`;
+  }
+
   //declare components
   components = {
     HelloWorld

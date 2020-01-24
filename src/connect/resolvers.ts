@@ -114,8 +114,6 @@ export function resolveProperties(component: Record<string, any>) {
 
   fields.forEach(field => isData(field) && (data[field.toString()] = component[field.toString()]));
 
-  hooks.created = component.created ? component.created : function() {};
-
   return {
     data,
     components,
